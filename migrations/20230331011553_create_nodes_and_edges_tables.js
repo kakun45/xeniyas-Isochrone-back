@@ -12,6 +12,7 @@ exports.up = function (knex) {
       table.integer("node_b").unsigned().notNullable();
       table.string("train_name").notNullable();
       table.unique(["node_a", "node_b", "train_name"]);
+      // this is optimization for db: use of a foreign key; it works, tested, but I don't need them @ the moment:
       // table
       //   .foreign("node_a")
       //   .references("node_id")
