@@ -1,5 +1,4 @@
 const express = require("express");
-
 // const { index } = require("../controllers/knexController"); // todo
 const {
   getIso,
@@ -8,8 +7,10 @@ const {
   readAnotherData,
   readGeometryCollection,
 } = require("../controllers/other");
-const { response } = require("express");
 const router = express.Router();
+
+// Enable req.body middleware
+// app.use(express.json());
 
 // todo
 // router.route("/destinations").get(knexController.index);
@@ -57,13 +58,13 @@ router.get("/test", async (_req, res) => {
   try {
     result = await getIso(station);
     res.send(result);
-    // next();
   } catch (err) {
-    next(err);
+    // next(err);
     res.send(err);
   }
 });
 
+// this was created to test the geometry-merging code
 router.get("/test-all", async (_req, res) => {
   const dummyStationData = [
     {
@@ -98,17 +99,37 @@ router.get("/test-all", async (_req, res) => {
 
   try {
     const result = await getAllGeometry(dummyStationData);
-    // res.send(result);
     if (result) {
       res.status(200).json(result);
-      // next();
     } else {
       res.status(404).json("file is not found");
-      // next();
     }
   } catch (err) {
-    // next(err);
     res.send(err);
+  }
+});
+
+// pass 3 vals to this api
+router.post("/commute", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
+    const station = {
+      longitude: center[0],
+      latitude: center[1],
+      walk_minutes: inputValue,
+    };
+    console.log(station);
+
+    const result = await getIso(station);
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json("Station is not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err);
   }
 });
 
