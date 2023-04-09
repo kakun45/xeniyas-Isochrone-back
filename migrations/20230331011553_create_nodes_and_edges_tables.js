@@ -1,17 +1,18 @@
 exports.up = function (knex) {
   return knex.schema
     .createTable("nodes", (table) => {
-      table.increments("node_id").unsigned().primary();
+      table.string("node_id").primary();
       table.string("station_name").notNullable();
-      table.decimal("lng").notNullable();
-      table.decimal("lat").notNullable();
+      // decimal data type with the desired precision and scale:
+      table.decimal("lng", 11, 8).notNullable();
+      table.decimal("lat", 10, 8).notNullable();
     })
     .createTable("edges", (table) => {
-      table.string("travel_min");
-      table.integer("node_a").unsigned().notNullable();
-      table.integer("node_b").unsigned().notNullable();
-      table.string("train_name").notNullable();
-      table.unique(["node_a", "node_b", "train_name"]);
+      table.string("node_a").notNullable();
+      table.string("node_b").notNullable();
+      table.integer("avg_travel_sec"); // todo: turn into min
+      // table.string("train_name").notNullable(); // not needed for now, add later
+      table.unique(["node_a", "node_b"]);
       // this is optimization for db: use of a foreign key; it works, tested, but I don't need them @ the moment:
       // table
       //   .foreign("node_a")

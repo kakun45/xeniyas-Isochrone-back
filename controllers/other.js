@@ -26,26 +26,9 @@ async function getIso(station) {
   return response.data.features[0].geometry;
 }
 
-// makes external calls forEach in arr of Stations, turness calls into the promises and assembles the file with all the isocrones layers
-async function getAllGeometry(stations) {
-  const dataHead = JSON.parse(fs.readFileSync("./data/sceleton_res.json"));
-
-  const isoCollectionLayer = {
-    type: "GeometryCollection",
-    geometries: [],
-  };
-
-  let promises = [];
-  stations.forEach((station) => {
-    let promise = getIso(station);
-    promises.push(promise);
-  });
-
-  let listOfResponses = await Promise.all(promises);
-  listOfResponses.forEach((iso) => {
-    isoCollectionLayer.geometries.push(iso);
-  });
-  // example:
+/**
+ *  makes external calls forEach in arr of Stations, turness calls into the Promises and assembles the file with all the isocrones layers
+ *   // example:
   // {
   //   type: 'GeometryCollection',
   //   geometries: [
@@ -54,16 +37,45 @@ async function getAllGeometry(stations) {
   //     { coordinates: [Array], type: 'Polygon' }
   //   ]
   // }
-
-  // console.log("other ", dataHead.features[0].geometry);
+  @param {*} stations arr
+ * @returns 
+ */
+async function getAllGeometry(stations) {
+  const dataHead = JSON.parse(fs.readFileSync("./data/sceleton_res.json"));
+  const isoCollectionLayer = {
+    type: "GeometryCollection",
+    geometries: [],
+  };
+  let promises = [];
+  stations.forEach((station) => {
+    let promise = getIso(station);
+    promises.push(promise);
+  });
+  let listOfResponses = await Promise.all(promises);
+  listOfResponses.forEach((iso) => {
+    isoCollectionLayer.geometries.push(iso);
+  });
   dataHead.features[0].geometry = isoCollectionLayer;
   return dataHead;
 }
 
+/**
+ * the obj of Nodes and Edges to seed db
+ * @returns nodes/edges data from json
+ */
+const readNodes = () => {
+  return JSON.parse(fs.readFileSync("./data/nodes_nodup.json"));
+};
+const readEdges = () => {
+  return JSON.parse(fs.readFileSync("./data/edges_nodup_rounded.json"));
+};
+
 module.exports = {
   getIso,
   getAllGeometry,
-  readData,
   readAnotherData,
+  readData,
+  readEdges,
   readGeometryCollection,
+  readNodes,
 };

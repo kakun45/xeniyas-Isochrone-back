@@ -9,6 +9,12 @@ const {
 } = require("../controllers/other");
 const router = express.Router();
 
+const {
+  getStationRowsInBoundingBox,
+  getBoundingBox,
+  originToArrOfStations,
+} = require("../controllers/knexController");
+
 // Enable req.body middleware
 // app.use(express.json());
 
@@ -110,7 +116,8 @@ router.get("/test-all", async (_req, res) => {
 });
 
 // pass 3 vals to this api
-router.post("/commute", async (req, res) => {
+// to use: http://localhost:8080/api/v1/destinations/commute-one
+router.post("/commute-one", async (req, res) => {
   try {
     console.log(req.body);
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
@@ -119,14 +126,50 @@ router.post("/commute", async (req, res) => {
       latitude: center[1],
       walk_minutes: inputValue,
     };
-    console.log(station);
+    // console.log(station);
 
     const result = await getIso(station);
+
     if (result) {
       res.status(200).json(result);
     } else {
       res.status(404).json("Station is not found");
     }
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err);
+  }
+});
+
+// pass 3 vals to this api
+// to use: http://localhost:8080/api/v1/destinations/commute-all
+router.post("/commute-all", async (req, res) => {
+  try {
+    console.log(req.body);
+    const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
+
+    const stations = await originToArrOfStations(center, parseInt(inputValue));
+    const results = await getAllGeometry(stations);
+    console.log("worked", results);
+    res.status(200).json(results);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+router.get("/points", async (req, res) => {
+  // const boundingBox = [-180, -90, 180, 90];
+  const EMPIRE = [-73.985664, 40.748424];
+  const boundingBox = getBoundingBox(EMPIRE);
+  const walkMinutes = 15;
+
+  try {
+    // worked:
+    // results = await getStationRowsInBoundingBox(boundingBox);
+    results = await originToArrOfStations(EMPIRE, walkMinutes);
+
+    res.status(200).json(results);
   } catch (err) {
     console.error(err);
     res.status(400).send(err);
