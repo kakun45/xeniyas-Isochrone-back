@@ -1,5 +1,4 @@
 const express = require("express");
-// const { index } = require("../controllers/knexController"); // todo
 const {
   getIso,
   getAllGeometry,
@@ -8,21 +7,17 @@ const {
   readGeometryCollection,
 } = require("../controllers/other");
 const router = express.Router();
-
 const {
   getStationRowsInBoundingBox,
   getBoundingBox,
   originToArrOfStations,
 } = require("../controllers/knexController");
 
-// Enable req.body middleware
-// app.use(express.json());
-
-// todo
 // router.route("/destinations").get(knexController.index);
 // HTTP body { “shapes” : [ { type: “circle”, lat: 57.6879, lon: -36.4675, radius: NUMBER } … ] }
 
-// GET geometeries to emitate the res of API; to use: http://localhost:8080/api/v1/destinations
+// GET geometeries to emitate the res of API;
+// to use: http://localhost:8080/api/v1/destinations
 router.get("/", (_req, res) => {
   const data = readData();
   if (data) {
@@ -31,7 +26,9 @@ router.get("/", (_req, res) => {
     res.status(404).json("file is not found");
   }
 });
-// GET geometeries to emitate the res of API; to use: http://localhost:8080/api/v1/destinations/2
+
+// GET geometeries to emitate the res of API;
+// to use: http://localhost:8080/api/v1/destinations/2
 router.get("/2", (_req, res) => {
   const anotherIso = readAnotherData();
   if (anotherIso) {
@@ -41,18 +38,18 @@ router.get("/2", (_req, res) => {
   }
 });
 
-// GET geometeries to emitate the res of API; to use: http://localhost:8080/api/v1/destinations/collection
+// GET geometeries to emitate the res of API;
+// to use: http://localhost:8080/api/v1/destinations/collection
 router.get("/collection", (_req, res) => {
   const collectionData = readGeometryCollection();
   if (collectionData) {
     res.status(200).json(collectionData);
   } else {
-    res.status(404).json("file is not found");
+    res.status(404).json("Data file is not found");
   }
 });
 
-router.get("/test", async (_req, res) => {
-  // const { profile, contours_minutes, longitude, latitude } = obj;
+router.get("/test-one", async (_req, res) => {
   let contours_minutes = 10;
   let longitude = -73.980255;
   let latitude = 40.76539;
@@ -65,7 +62,6 @@ router.get("/test", async (_req, res) => {
     result = await getIso(station);
     res.send(result);
   } catch (err) {
-    // next(err);
     res.send(err);
   }
 });
@@ -102,7 +98,6 @@ router.get("/test-all", async (_req, res) => {
     //   walk_minutes: 10,
     // },
   ];
-
   try {
     const result = await getAllGeometry(dummyStationData);
     if (result) {
@@ -119,17 +114,13 @@ router.get("/test-all", async (_req, res) => {
 // to use: http://localhost:8080/api/v1/destinations/commute-one
 router.post("/commute-one", async (req, res) => {
   try {
-    console.log(req.body);
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
     const station = {
       longitude: center[0],
       latitude: center[1],
       walk_minutes: inputValue,
     };
-    // console.log(station);
-
     const result = await getIso(station);
-
     if (result) {
       res.status(200).json(result);
     } else {
@@ -141,15 +132,15 @@ router.post("/commute-one", async (req, res) => {
   }
 });
 
-// pass 3 vals to this api
+// pass 2+1 vals to this api
 // to use: http://localhost:8080/api/v1/destinations/commute-all
 router.post("/commute-all", async (req, res) => {
   try {
     console.log(req.body);
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
-
     const stations = await originToArrOfStations(center, parseInt(inputValue));
     const results = await getAllGeometry(stations);
+
     console.log("worked", results);
     res.status(200).json(results);
   } catch (err) {
@@ -159,7 +150,6 @@ router.post("/commute-all", async (req, res) => {
 });
 
 router.get("/points", async (req, res) => {
-  // const boundingBox = [-180, -90, 180, 90];
   const EMPIRE = [-73.985664, 40.748424];
   const boundingBox = getBoundingBox(EMPIRE);
   const walkMinutes = 15;
