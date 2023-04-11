@@ -114,14 +114,14 @@ async function getStationsWithDijkstra(center, maxCostMin) {
     console.log(114, `rowsWithLatLon.length=${rowsWithLatLon.length}`);
     const stations = [];
     console.log(
-      `just created stations array: size=${stations.length} dijkstrasNodes.length=${dijkstrasNodes.length} `
+      `117. just created stations array: size=${stations.length} dijkstrasNodes.length=${dijkstrasNodes.length} `
     );
     // Output: [
     //  { node_id: 'A24', lng: '-73.98173600', lat: '40.76829600' }, ...
     // ]
     for (const nodeId in dijkstrasNodes) {
       console.log(
-        `for loop nodeId=${nodeId} stations array size=${stations.length}`
+        `124. for loop nodeId=${nodeId} stations array size=${stations.length}`
       );
       // create a node (center) for the start location
       if (nodeId === START_NODE_ID) {
@@ -133,18 +133,18 @@ async function getStationsWithDijkstra(center, maxCostMin) {
         };
         stations.push(startObj);
       } else {
-        console.log(88, nodeId); // 'D15'
+        console.log(136, nodeId); // 'D15'
         const rowFromDijkstra = dijkstrasNodes[nodeId];
-        console.log(90, rowFromDijkstra); // [arr] that is set on ea key: [ 'D15', 0, null ]
+        console.log(138, rowFromDijkstra); // [arr] that is set on ea key: [ 'D15', 0, null ]
         const node = rowsWithLatLon.find((node) => node.node_id === nodeId);
-        console.log(92, node);
+        console.log(140, node);
         // turn into a station objects, the obj that getAllGeometry() takes: [{...}, {...}]
         const stationObj = dijkstraOutputToStations(
           rowFromDijkstra,
           maxCostMin,
           node
         );
-        console.log(99, stationObj);
+        console.log(147, stationObj);
         stations.push(stationObj);
         // Output: [{
         //   longitude: '-73.97745000',
@@ -153,7 +153,7 @@ async function getStationsWithDijkstra(center, maxCostMin) {
         // }, ...]
       }
     }
-    console.log(`getStationsWithDijkstra() returning: ${stations}.`);
+    console.log(`156. getStationsWithDijkstra() returning: ${stations}.`);
     return stations;
   } catch (error) {
     console.error(error);
@@ -209,7 +209,7 @@ exports.originToArrOfStations = async (center, minutes) => {
   } else {
     const boundingBox = exports.getBoundingBox(center); // may go away, just to limit API calls
     rows = await exports.getStationRowsInBoundingBox(boundingBox);
-    console.log(166, rows); // [{ node_id: '128', lng: '-73.99105700', lat: '40.75037300' },...]
+    console.log(212, rows); // [{ node_id: '128', lng: '-73.99105700', lat: '40.75037300' },...]
     // replace this with station objects from dijkstra (substruct cost)
     let stations = rows.map((row) => {
       return {
