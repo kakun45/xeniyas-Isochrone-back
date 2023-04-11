@@ -133,11 +133,9 @@ router.post("/commute-one", async (req, res) => {
 // to use: http://localhost:8080/api/v1/destinations/commute-all
 router.post("/commute-all", async (req, res) => {
   try {
-    console.log(139, req.body);
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
     const stations = await originToArrOfStations(center, parseInt(inputValue));
     const results = await getAllGeometry(stations);
-
     console.log("worked", results);
     res.status(200).json(results);
   } catch (err) {
