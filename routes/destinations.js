@@ -13,9 +13,6 @@ const {
   originToArrOfStations,
 } = require("../controllers/knexController");
 
-// router.route("/destinations").get(knexController.index);
-// HTTP body { “shapes” : [ { type: “circle”, lat: 57.6879, lon: -36.4675, radius: NUMBER } … ] }
-
 // GET geometeries to emitate the res of API;
 // to use: http://localhost:8080/api/v1/destinations
 router.get("/", (_req, res) => {
