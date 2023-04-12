@@ -54,11 +54,9 @@ class Graph {
   addEdge(nodeA, nodeB, cost) {
     if (!this.graph[nodeA]) {
       this.graph[nodeA] = [];
-      // console.log(this.graph);
     }
     if (!this.graph[nodeB]) {
       this.graph[nodeB] = [];
-      // console.log(this.graph);
     }
     const edgeA = new Edge(nodeB, cost);
     this.graph[nodeA].push(edgeA);

@@ -22,9 +22,9 @@ exports.getBoundingBox = (center) => {
  * SELECT * FROM nodes
  * WHERE lat BETWEEN (40.748424-0.007) AND (40.748424+0.007)
  * AND lng BETWEEN (-73.985664-0.007) AND (-73.985664+0.007);
- * // returns [{...}]
  * @param {*} req
  * @param {*} res
+ * @returns [{...}]
  */
 exports.getStationRowsInBoundingBox = async (boundingBox) => {
   const [minLon, minLat, maxLon, maxLat] = boundingBox; // x1,y1,x2,y2
@@ -34,7 +34,7 @@ exports.getStationRowsInBoundingBox = async (boundingBox) => {
     .whereBetween("lat", [minLat, maxLat]);
   //console.log(`found ${rows.length} rows for ${boundingBox}`);
   //console.log(rows[0]);
-  return rows; // returns [{...}]
+  return rows;
 };
 
 // const START_NODE_ID = "D15"; // Rokefeller ctr
@@ -45,7 +45,7 @@ async function calulateStartEdges(startLatLon, startNodeId, graph) {
   // get all Stations' nodes within a bounding box exports.getBoundingBox(center)
   const boundingBox = exports.getBoundingBox(startLatLon); // [lon, lat] = startLatLon
   rows = await exports.getStationRowsInBoundingBox(boundingBox);
-  console.log(49, rows); // [{ node_id: '633', lng: '-73.98426400', lat: '40.74307000' },...]
+  // console.log(48, rows); // [{ node_id: '633', lng: '-73.98426400', lat: '40.74307000' },...]
   if (!rows) {
     console.warn(
       "I found No Subway stations within walking distance in your given time"
@@ -67,10 +67,7 @@ async function calulateStartEdges(startLatLon, startNodeId, graph) {
     // return edges OR modify graph;
     graph.addEdge(startNodeId, row.node_id, cost); // form: graph.addEdge(nodeA, nodeB, cost)
   });
-  console.log(70, graph.getAllNodeIds());
 }
-// const myGraph = new Graph(); // just for a test
-// calulateStartEdges([-73.988858, 40.739585], START_NODE_ID, myGraph); // testing: from ~21st st & Broadway
 
 async function getStationsWithDijkstra(center, maxCostMin) {
   const myGraph = new Graph();
@@ -84,8 +81,9 @@ async function getStationsWithDijkstra(center, maxCostMin) {
     //  - edges in db have seconds:  turn seconds into minutes: avg_travel_sec/60
     myGraph.addEdge(row.node_a, row.node_b, row.avg_travel_sec / 60);
   });
-  // console.log(52, myGraph.getAllNodeIds()); // ['101', '103', '104', '106', ... 396+ more items ]
-  // console.log(53, myGraph.getEdges("101")); //  [ Edge { neighboorId: '103', cost: 4.4 } ]
+
+  // myGraph.getAllNodeIds()); // ['101', '103', '104', '106', ... 396+ more items ]
+  // myGraph.getEdges("101")); //  [ Edge { neighboorId: '103', cost: 4.4 } ]
 
   if (!(myGraph instanceof Graph)) {
     throw new Error("myGraph is not an instance of the Graph class");
@@ -98,7 +96,7 @@ async function getStationsWithDijkstra(center, maxCostMin) {
     myGraph,
     maxCostMin - WAIT_TIME_MIN_AT_START_STATION
   ); // maxCostMin is input user minutes, need 'startNodeId', not [lat,lng]
-  console.log(101, dijkstrasNodes);
+  // console.log(101, dijkstrasNodes);
   // Output sample with db run:
   // {
   // D15: [ 'D15', 0, null ],
@@ -109,20 +107,17 @@ async function getStationsWithDijkstra(center, maxCostMin) {
   const keysOfDijkstrasNodes = Object.keys(dijkstrasNodes); // arr
   try {
     const rowsWithLatLon = await knex("nodes").select("node_id", "lng", "lat");
-    //.whereIn("node_id", keysOfDijkstrasNodes);
     // the retrieved rows are accessible in here
-    console.log(114, `rowsWithLatLon.length=${rowsWithLatLon.length}`);
+    // console.log(111, `rowsWithLatLon.length=${rowsWithLatLon.length}`);
     const stations = [];
-    console.log(
-      `117. just created stations array: size=${stations.length} dijkstrasNodes.length=${dijkstrasNodes.length} `
-    );
+    // console.log(
+    // `114. just created stations array: size=${stations.length} dijkstrasNodes.length=${dijkstrasNodes.length} `
+    // );
     // Output: [
     //  { node_id: 'A24', lng: '-73.98173600', lat: '40.76829600' }, ...
     // ]
     for (const nodeId in dijkstrasNodes) {
-      console.log(
-        `124. for loop nodeId=${nodeId} stations array size=${stations.length}`
-      );
+      // console.log(`for loop nodeId=${nodeId} stations array size=${stations.length}`);
       // create a node (center) for the start location
       if (nodeId === START_NODE_ID) {
         // create start obj and add to [stations]
@@ -133,18 +128,15 @@ async function getStationsWithDijkstra(center, maxCostMin) {
         };
         stations.push(startObj);
       } else {
-        console.log(136, nodeId); // 'D15'
         const rowFromDijkstra = dijkstrasNodes[nodeId];
-        console.log(138, rowFromDijkstra); // [arr] that is set on ea key: [ 'D15', 0, null ]
+        // console.log(132, rowFromDijkstra); // [arr] that is set on ea key: [ 'D15', 0, null ]
         const node = rowsWithLatLon.find((node) => node.node_id === nodeId);
-        console.log(140, node);
         // turn into a station objects, the obj that getAllGeometry() takes: [{...}, {...}]
         const stationObj = dijkstraOutputToStations(
           rowFromDijkstra,
           maxCostMin,
           node
         );
-        console.log(147, stationObj);
         stations.push(stationObj);
         // Output: [{
         //   longitude: '-73.97745000',
@@ -153,7 +145,7 @@ async function getStationsWithDijkstra(center, maxCostMin) {
         // }, ...]
       }
     }
-    console.log(`156. getStationsWithDijkstra() returning: ${stations}.`);
+    // console.log(`156. getStationsWithDijkstra() returning: ${stations}.`);
     return stations;
   } catch (error) {
     console.error(error);
@@ -209,7 +201,7 @@ exports.originToArrOfStations = async (center, minutes) => {
   } else {
     const boundingBox = exports.getBoundingBox(center); // may go away, just to limit API calls
     rows = await exports.getStationRowsInBoundingBox(boundingBox);
-    console.log(212, rows); // [{ node_id: '128', lng: '-73.99105700', lat: '40.75037300' },...]
+    // console.log(212, rows); // [{ node_id: '128', lng: '-73.99105700', lat: '40.75037300' },...]
     // replace this with station objects from dijkstra (substruct cost)
     let stations = rows.map((row) => {
       return {

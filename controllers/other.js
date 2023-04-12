@@ -29,14 +29,14 @@ async function getIso(station) {
 /**
  *  makes external calls forEach in arr of Stations, turness calls into the Promises and assembles the file with all the isocrones layers
  *   // example:
-  // {
-  //   type: 'GeometryCollection',
-  //   geometries: [
-  //     { coordinates: [Array], type: 'Polygon' },
-  //     { coordinates: [Array], type: 'Polygon' },
-  //     { coordinates: [Array], type: 'Polygon' }
-  //   ]
-  // }
+ * {
+ *   type: 'GeometryCollection',
+ *   geometries: [
+ *     { coordinates: [Array], type: 'Polygon' },
+ *     { coordinates: [Array], type: 'Polygon' },
+ *     { coordinates: [Array], type: 'Polygon' }
+ *   ]
+ * }
   @param {*} stations arr
  * @returns 
  */

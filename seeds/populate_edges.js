@@ -25,6 +25,4 @@ exports.seed = async function (knex) {
   const edges = edgeColumnsToWeights(edgesData);
   await knex("edges").truncate();
   await knex("edges").insert(edges);
-  // { train_name: "7", avg_travel_sec: "24", node_a: 1, node_b: 2 },
-  // ]);
 };
