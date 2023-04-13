@@ -35,3 +35,20 @@ exports.up = function (knex) {
 exports.down = function (knex) {
   return knex.schema.dropTable("edges").dropTable("nodes");
 };
+
+// SQL
+// CREATE TABLE nodes (
+//   node_id VARCHAR(255) PRIMARY KEY,
+//   station_name VARCHAR(255) NOT NULL,
+//   lng DECIMAL(11, 8) NOT NULL,
+//   lat DECIMAL(10, 8) NOT NULL
+// );
+// Completed in 73 ms
+// ❯
+// CREATE TABLE edges (
+//   node_a VARCHAR(255) NOT NULL,
+//   node_b VARCHAR(255) NOT NULL,
+//   avg_travel_sec INT,
+//   UNIQUE KEY (node_a, node_b)
+// );
+// Completed in 56 ms

@@ -184,17 +184,18 @@ My application leverages dynamic data through the integration of a Subway databa
 - Calculating the distance between two points is complicated. The Earth is not flat, using Cos, Sin, Pi, and Degrees can be intimidating, and checking my math with extra pair of human eyes and calculators all over the internet was a necessity;
 - Dijkstra - the version of the shortest path algorithm is not efficient but still worked really well. Using a less efficient version of the shortest path algorithm may still produce satisfactory results for small inputs or with large computational resources. However, even small differences in efficiency can have a significant impact on the overall performance of the system, especially for large inputs or limited resources. Therefore, it's generally better to use the most efficient algorithm available to ensure better performance of the system. (baseline for Dijkstra: O(|E| log |V|));
 - Created and used custom Classes in JavaScript to implement Dijkstra;- whether you're using `async/await` or `.then()`, it's important to write your code in a way that doesn't accidentally create multiple execution contexts on the server side. This can be achieved by properly managing your async functions, avoiding infinite loops, and avoiding blocking the event loop.
+- Don't subscribe for userInput state when makein an API call
 
 ## Next steps
 
-- account for time spent for transfer the trains
-- show accessibility and amenities (hospitals, groceries, schools)
-- color code based on types of transport used
-- support cycling busses and ferry
-- toggle express trains on and off
-- sidewalks and intersections would go in there too
-- add caching for Mapbox API responses
-- deploying the project to production
-- implementing functionality for placeholders for OAuth
+- deploying the project's database and a server, (the frontend is online)
 - pick an open-source license
+- account for time spent for transfer the trains
+- toggle express trains on and off
+- search within polygons to show accessibility and amenities (ER, hospitals, groceries, schools)
+- color code based on types of transport used, time, reach, etc.
+- support cyclingn, busses, ferry, LIRR, Metro North
+- sidewalks and intersections would go in there too for transfers
+- caching for Mapbox API responses
+- implementing functionality for placeholders for OAuth
 - to expand to calculate any region

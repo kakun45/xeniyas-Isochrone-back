@@ -1,4 +1,4 @@
-const knex = require("knex")(require("../knexfile"));
+const knex = require("knex")(require("../knexfile")); //  creating the instance of Knex to use in the application
 const {
   dijkstra,
   estimateMinutesFromLatLon,
