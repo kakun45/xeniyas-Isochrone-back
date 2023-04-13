@@ -1,0 +1,19 @@
+{
+  "features": [
+    {
+      "properties": {
+        "fill": "#bf4040",
+        "fillOpacity": 0.33,
+        "fill-opacity": 0.33,
+        "fillColor": "#bf4040",
+        "color": "#bf4040",
+        "contour": 10,
+        "opacity": 0.33,
+        "metric": "time"
+      },
+      "geometry": {},
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}
