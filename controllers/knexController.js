@@ -53,7 +53,7 @@ async function calulateStartEdges(startLatLon, startNodeId, graph) {
   }
   const [lng, lat] = startLatLon; // assuming lng1, lat1, come in as Numbers
   if (typeof lng !== "number" || typeof lat !== "number") {
-    throw new Error("lon & lat must be a Float");
+    throw new Error(`lon & lat must be a Float, got lng: ${lng}, lat${lat}`);
   }
   // create from scratch and add to the graph walking edges from Start to originStations: graph.addEdge(nodeA, nodeB, cost)
   rows.map((row) => {
