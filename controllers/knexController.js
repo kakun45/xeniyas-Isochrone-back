@@ -53,6 +53,7 @@ async function calulateStartEdges(startLatLon, startNodeId, graph) {
     );
   }
   const [lng, lat] = startLatLon; // assuming lng1, lat1, come in as Numbers
+  console.log(`environmental variables ${environment}`);
   if (typeof lng !== "number" || typeof lat !== "number") {
     throw new Error(`lon & lat must be a Float, got lng: ${lng}, lat${lat}`);
   }
