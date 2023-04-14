@@ -7,6 +7,7 @@ const {
 } = require("./getAllDestinations");
 
 exports.getBoundingBox = (center) => {
+  console.log(`31. environmental variables ${environment}`);
   // roughly a 1-mile in degrees: 0.022(at the equator) However, this distance decreases as you move towards the poles.
   // At a latitude of 40.74590600 degrees, one mile is approximately 0.021366 degrees. ex. is from the 23rd st station Lat
   const size = 0.01; // room for improvement: v1.1 how long user wants to walk to origin Subway station
@@ -53,7 +54,7 @@ async function calulateStartEdges(startLatLon, startNodeId, graph) {
     );
   }
   const [lng, lat] = startLatLon; // assuming lng1, lat1, come in as Numbers
-  console.log(`environmental variables ${environment}`);
+
   if (typeof lng !== "number" || typeof lat !== "number") {
     throw new Error(`lon & lat must be a Float, got lng: ${lng}, lat${lat}`);
   }

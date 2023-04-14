@@ -47,6 +47,7 @@ router.get("/collection", (_req, res) => {
 });
 
 router.get("/test-one", async (_req, res) => {
+  console.log(`50. environmental var is: ${process.env.ENVIRONMENT}`);
   let contours_minutes = 10;
   let longitude = -73.980255;
   let latitude = 40.76539;
