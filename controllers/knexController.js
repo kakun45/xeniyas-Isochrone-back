@@ -1,4 +1,5 @@
-const knex = require("knex")(require("../knexfile")); //  creating the instance of Knex to use in the application
+const environment = process.env.ENVIRONMENT || "devep";
+const knex = require("knex")(require("../knexfile")[environment]); //  creating the instance of Knex to use in the application
 const {
   dijkstra,
   estimateMinutesFromLatLon,
