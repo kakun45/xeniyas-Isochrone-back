@@ -14,14 +14,15 @@ const {
 } = require("../controllers/knexController");
 
 // GET geometeries to emitate the res of API;
+// Automaated Health check - to check if Vercel server-app is serving the rignt thing and express app it up
 // to use: http://localhost:8080/api/v1/destinations
 router.get("/", (_req, res) => {
-  const data = readData();
-  if (data) {
-    res.status(200).json(data);
-  } else {
-    res.status(404).json("file is not found");
-  }
+  // const data = readData();
+  // if (data) {
+  res.status(200).send("OK");
+  // } else {
+  //   res.status(404).json("file is not found");
+  // }
 });
 
 // GET geometeries to emitate the res of API;
@@ -47,7 +48,7 @@ router.get("/collection", (_req, res) => {
 });
 
 router.get("/test-one", async (_req, res) => {
-  console.log(`50. environmental var is: ${process.env.ENVIRONMENT}`);
+  // console.log(`51. environmental var is: ${process.env.ENVIRONMENT}`);
   let contours_minutes = 10;
   let longitude = -73.980255;
   let latitude = 40.76539;
@@ -136,7 +137,7 @@ router.post("/commute-all", async (req, res) => {
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
     const stations = await originToArrOfStations(center, parseInt(inputValue));
     const results = await getAllGeometry(stations);
-    console.log("works", results);
+    // console.log("works", results);
     res.status(200).json(results);
   } catch (err) {
     console.error(err);

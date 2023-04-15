@@ -7,7 +7,7 @@ const {
 } = require("./getAllDestinations");
 
 exports.getBoundingBox = (center) => {
-  console.log(`31. environmental variables ${environment}`);
+  // console.log(`10. environmental variables ${environment}`);
   // roughly a 1-mile in degrees: 0.022(at the equator) However, this distance decreases as you move towards the poles.
   // At a latitude of 40.74590600 degrees, one mile is approximately 0.021366 degrees. ex. is from the 23rd st station Lat
   const size = 0.01; // room for improvement: v1.1 how long user wants to walk to origin Subway station
@@ -92,7 +92,7 @@ async function getStationsWithDijkstra(center, maxCostMin) {
     throw new Error("myGraph is not an instance of the Graph class");
   }
   await calulateStartEdges(center, START_NODE_ID, myGraph);
-  console.log(95, myGraph.getAllNodeIds());
+  // console.log(95, myGraph.getAllNodeIds());
   // need to substruct from maxConstMin - WAIT_TIME_MIN_AT_START_STATION - a waiting for a 1st trin time at the "Start" station
   const dijkstrasNodes = dijkstra(
     START_NODE_ID,
