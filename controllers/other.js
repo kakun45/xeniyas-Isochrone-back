@@ -41,8 +41,9 @@ async function getIso(station) {
  * @returns 
  */
 async function getAllGeometry(stations) {
-  console.log();
-  const dataHead = JSON.parse(fs.readFileSync("../data/sceleton_res.json"));
+  // console.log(path);
+  const path = process.cwd() + "/data/sceleton_res.json";
+  const dataHead = JSON.parse(fs.readFileSync(path));
   const isoCollectionLayer = {
     type: "GeometryCollection",
     geometries: [],
