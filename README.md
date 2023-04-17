@@ -4,6 +4,12 @@ Mapping the Best NYC Living Spaces Within Your Commute Time. [My linkedin](https
 
 https://user-images.githubusercontent.com/53381916/231323083-53847dfd-702c-40b2-9530-1c905b1c58a3.mov
 
+---
+
+And now it's [deployed](https://xeniyas-isochrone-front.vercel.app/)
+
+---
+
 ## Product Description
 
 Commute Crafter is a nifty tool that visualizes all destinations reachable within a specific time frame in New York City, whether it's by foot or subway. It's perfect for selecting an apartment or job based on its location while still keeping your commuting time in mind.
@@ -17,7 +23,9 @@ Whether you are a seasoned commuter or a first-time user, this application can h
 
 ## Features and Usage Instructions
 
-This application is designed to provide users with comprehensive usage instructions. For instance, by inputting your address and desired commute time, you can click the "Go" button and the application will display all the areas in NYC you can reach within that specified time frame.
+This application is designed to provide users with comprehensive usage instructions. For instance, by inputting your `address` and desired `commute time` up to an hour, you can click the `"Go"` button and the application will display all the areas in NYC you can reach within that specified time frame.
+
+(!) The project has time constraints with minimum and maximum limitations. The API does not support requests for commute times exceeding 60 minutes, and I assumed a minimum walking time of 6 minutes for the start.
 
 # Prerequisites
 
@@ -185,10 +193,10 @@ My application leverages dynamic data through the integration of a Subway databa
 - Dijkstra - the version of the shortest path algorithm is not efficient but still worked really well. Using a less efficient version of the shortest path algorithm may still produce satisfactory results for small inputs or with large computational resources. However, even small differences in efficiency can have a significant impact on the overall performance of the system, especially for large inputs or limited resources. Therefore, it's generally better to use the most efficient algorithm available to ensure better performance of the system. (baseline for Dijkstra: O(|E| log |V|));
 - Created and used custom Classes in JavaScript to implement Dijkstra;- whether you're using `async/await` or `.then()`, it's important to write your code in a way that doesn't accidentally create multiple execution contexts on the server side. This can be achieved by properly managing your async functions, avoiding infinite loops, and avoiding blocking the event loop.
 - Don't subscribe for userInput state when makein an API call
+- Deploying my React frontend, the database, and server across multiple parties proved to be an enjoyable challenge. Throughout the process, I had to make several modifications to the project, including setting up environments, implementing SSL, seeding the database, and deciding between using pwd or fs in order to maintain a consistent workflow for both development and production environments. You can find the link to the project above.
 
 ## Next steps
 
-- deploying the project's database and a server, (the frontend is online)
 - pick an open-source license
 - account for time spent for transfer the trains
 - toggle express trains on and off
