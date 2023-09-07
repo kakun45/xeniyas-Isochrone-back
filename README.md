@@ -142,6 +142,8 @@ npm start  # to start React
 
 ```
 http://localhost:3000/map
+# or
+http://localhost:3000/
 ```
 
 - - Unexpected result in a browser? Try hard reload:
@@ -155,7 +157,7 @@ cmd + shift + R
 Endpoint for the frontend calls:
 
 ```
-http://localhost:8080/api/v1/destinations/commute-all
+<host>/api/v1/destinations/commute-all
 ```
 
 This takes a coordinate and returns `setGeometry` Promise<...>
@@ -176,13 +178,14 @@ To extract latitude and longitude of provided by user address
 
 My application leverages dynamic data through the integration of a Subway database and the MapBox API, which are both utilized within an express server that I developed. This architecture provides users with real-time access to Subway data and location-based services through a reliable and scalable backend infrastructure.
 
-- React.js (SCSS)
+- React.js (JavaScript, JSX, HTML, SCSS)
 - Mapbox API
 - Express/Node with Axios and Knex libraries
 - MySQL
-- data processing and clean up: Python, Pandas, Google Colaboratory: [link to my cleanup flow](https://colab.research.google.com/drive/1B1fAf8jqy54z5zkoOT7kwNqiI2hcJ7eo?usp=share_link)
-- - Public data [link](https://new.mta.info/developers)
-
+- Data processing and clean up:
+  - Python, Pandas, Google Colaboratory: [link to my duplicates reduction flow](https://colab.research.google.com/drive/1B1fAf8jqy54z5zkoOT7kwNqiI2hcJ7eo?usp=share_link)
+  - Public data [link](https://new.mta.info/developers)
+- Deployment: Vercel (frontend, backend), PlanetScale (database)
 ---
 
 ## Lessons learned
@@ -192,8 +195,9 @@ My application leverages dynamic data through the integration of a Subway databa
 - Calculating the distance between two points is complicated. The Earth is not flat, using Cos, Sin, Pi, and Degrees can be intimidating, and checking my math with extra pair of human eyes and calculators all over the internet was a necessity;
 - Dijkstra - my version of the shortest path algorithm is not efficient, but still worked really well. Entire process runs instantly locally. Using a less efficient version of the shortest path algorithm may still produce satisfactory results for small inputs or with large computational resources. However, even small differences in efficiency can have a significant impact on the overall performance of the system, especially for large inputs or limited resources. Therefore, it's generally better to use the most efficient algorithm available to ensure better performance of the system. (baseline for Dijkstra: O(|E| log |V|));
 - Whether you're using `async/await` or `.then()`, it's important to write your code in a way that doesn't accidentally create multiple execution contexts on the server side. This can be achieved by properly managing your async functions, avoiding infinite loops, and avoiding blocking the event loop;
-- DO NOT subscribe for userInput state when making an API call!
+- DO NOT subscribe to a userInput state when making a 3rd party API call!
 - Deploying my React frontend, the database, and server across multiple parties proved to be an enjoyable challenge. Throughout the process, I had to make several modifications modifications to the successfully running locally project, including setting up multiple environments, implementing SSL, seeding the remote database, and deciding between using `pwd` or `fs` in order to maintain a consistent workflow for both development and production environments. You can find the link to the deployed project at the top.
+- suddenly my data files were not accessible to the deployment environment due to a path change in production, the solution was a process.cwd() - which returns a string that represents the current working directory. This can be useful when you need to access files or directories relative to the current working directory.
 
 ## Next steps
 
