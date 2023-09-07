@@ -1,4 +1,4 @@
-# Commute Crafter by Xeniya Shoiko (frontend)
+# Commute Crafter by Xeniya Shoiko (backend)
 
 Mapping the Best NYC Living Spaces Within Your Commute Time. [My linkedin](https://www.linkedin.com/in/xeniya-shoiko)
 
