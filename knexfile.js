@@ -18,8 +18,8 @@ module.exports = {
       user: process.env.username,
       password: process.env.password,
       database: process.env.database,
-      ssl: { rejectUnauthorized: process.env.ssl },
-      charset: "utf8",
+      // ssl: { rejectUnauthorized: process.env.ssl },
+      // charset: "utf8",
     },
   },
 };
