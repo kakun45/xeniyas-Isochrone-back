@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 module.exports = {
-  devep: {
+  development: {
     client: "mysql2",
     connection: {
       host: process.env.host,
@@ -24,7 +24,4 @@ module.exports = {
   },
 };
 
-// phase 2 todo: for deployment
-// module.exports = {
-
-// };
+// console.log(process.env); // to see if .env is loaded
