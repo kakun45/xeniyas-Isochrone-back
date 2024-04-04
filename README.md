@@ -183,7 +183,7 @@ My application leverages dynamic data through the integration of a Subway databa
 - Express/Node with Axios and Knex libraries
 - MySQL
 - Data processing and clean up:
-  - Python, Pandas, Google Colaboratory: [link to my duplicates reduction flow](https://colab.research.google.com/drive/1B1fAf8jqy54z5zkoOT7kwNqiI2hcJ7eo?usp=share_link)
+  - Python, Pandas, Google Colaboratory: [link to my duplicates reduction flow](https://colab.research.google.com/drive/1B1fAf8jqy54z5zkoOT7kwNqiI2hcJ7eo?usp=sharing)
   - Public data [link](https://new.mta.info/developers)
 - Deployment: Vercel (frontend, backend), PlanetScale (database)
 ---
