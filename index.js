@@ -23,6 +23,7 @@ app.get("/api/check-db", async (req, res) => {
     const result = await checkDbConnection();
     res.json(result);
   } catch (error) {
+    console.error("Error in API call:", error);
     res.status(500).json(error);
   }
 });
@@ -33,3 +34,5 @@ app.use("/api/v1/destinations", routeDestinations);
 app.listen(process.env.PORT || 8080, () => {
   console.log(`🚀Fire the command! Port: ${port}`);
 });
+
+// to run: npx nodemon index.js
