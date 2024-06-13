@@ -10,8 +10,24 @@ require("dotenv").config(); // (keys and secrets)
 // Create Express app and also allow for app PORT to be optionally specified by an environment variable
 const app = express();
 const port = process.env.PORT || 8080;
-// Enable CORS to prevent CORS errors when using client-side API calls
-app.use(cors());
+
+// configure CORS: This tells a backend which origins (frontend URLs) are allowed to access its resources
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || origin === process.env.FRONTEND_URL) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Allows cookies if needed
+  optionsSuccessStatus: 204, // Some legacy browsers choke on 204
+};
+// Enable CORS to prevent CORS errors when using client-server API calls
+// app.use(cors());
+app.use(cors(corsOptions)); // enable CORS with options
+
 // Enable req.body middleware: used to enable JSON parsing on the incoming request.
 // By default, express.json() middleware limits the request payload size to 100kb
 app.use(express.json());
@@ -35,7 +51,7 @@ app.get("/api/check-db", async (req, res) => {
 app.use("/api/v1/destinations", routeDestinations);
 
 //  Start the server
-app.listen(process.env.PORT || 8080, () => {
+app.listen(port, () => {
   console.log(`🚀Fire the command! Port: ${port}`);
 });
 
