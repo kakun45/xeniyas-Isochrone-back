@@ -25,3 +25,8 @@ module.exports = {
 };
 
 // console.log(process.env); // to see if .env is loaded
+
+//  to create tables:
+// npm run migrate
+//  to populate
+// npm run seed
