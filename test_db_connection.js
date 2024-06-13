@@ -5,8 +5,8 @@ require("dotenv").config();
 // After attempting to connect to the database, the callback will be called with either an error or a success message. The provided callback function handles the response to the Client based on result
 const checkDbConnection = () => {
   return new Promise((resolve, reject) => {
-    console.log("DB_CONNECTION_URL:", process.env.DB_CONNECTION_URL); // Add this line to log the DB connection UR
-    const connection = mysql2.createConnection(process.env.DB_CONNECTION_URL);
+    // console.log("DATABASE_URL:", process.env.DATABASE_URL); // test line to log the DB connection UR
+    const connection = mysql2.createConnection(process.env.DATABASE_URL);
 
     connection.connect((err) => {
       if (err) {
