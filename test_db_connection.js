@@ -1,12 +1,24 @@
 const mysql2 = require("mysql2");
 require("dotenv").config();
 
+const dbHost = process.env.DATABASE_HOST,
+  dbUser = process.env.DATABASE_USER,
+  dbName = process.env.DATABASE_NAME,
+  dbPass = process.env.DATABASE_PASSWORD,
+  dbPort = process.env.DATABASE_PORT;
+
 // This ensures that the database connection status is communicated back to the client efficiently and that the connection attempt's outcome is handled appropriately:
 // After attempting to connect to the database, the callback will be called with either an error or a success message. The provided callback function handles the response to the Client based on result
 const checkDbConnection = () => {
   return new Promise((resolve, reject) => {
-    // console.log("DATABASE_URL:", process.env.DATABASE_URL); // test line to log the DB connection UR
-    const connection = mysql2.createConnection(process.env.DATABASE_URL);
+    // const connection = mysql2.createConnection(process.env.DATABASE_URL); // not working with special chars in pass
+    const connection = mysql2.createConnection({
+      host: dbHost,
+      user: dbUser,
+      database: dbName,
+      password: dbPass,
+      port: dbPort,
+    });
 
     connection.connect((err) => {
       if (err) {
@@ -28,3 +40,5 @@ const checkDbConnection = () => {
   });
 };
 module.exports = checkDbConnection;
+
+// to run on CLI use: mysql -u db_user -p -h db_host -P db_port db_name
