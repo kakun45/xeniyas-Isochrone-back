@@ -14,12 +14,12 @@ module.exports = {
   production: {
     client: "mysql2",
     connection: {
-      host: process.env.host,
-      user: process.env.username,
-      password: process.env.password,
-      database: process.env.database,
+      host: process.env.DATABASE_HOST,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       // ssl: { rejectUnauthorized: process.env.ssl },
-      // charset: "utf8",
+      charset: "utf8",
     },
   },
 };

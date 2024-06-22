@@ -1,6 +1,11 @@
 // BACKEND! REST API
 const express = require("express");
 const axios = require("axios");
+
+// const environment = process.env.ENVIRONMENT || "development";
+const environment = process.env.ENVIRONMENT || "production";
+const knex = require("knex")(require("./knexfile")[environment]);
+
 const checkDbConnection = require("./test_db_connection");
 // cors package prevents CORS errors when using client side API calls
 const cors = require("cors");
@@ -50,6 +55,22 @@ app.get("/api/check-db", async (req, res) => {
 // 2. Mounts the routes defined in routes/Destinations.js to the /api path.
 app.use("/api/v1/destinations", routeDestinations);
 
+//  3. Status check testing tool endpoint
+app.use("/api/debug", async (req, res) => {
+  try {
+    const edges = await knex("edges");
+    if (edges) {
+      res.status(200).json({ msg: "Db is OK." });
+    } else {
+      res.status(404).json("Not found");
+    }
+  } catch (error) {
+    console.error(process.env.DATABASE_HOST);
+    console.error("Host: ", process.env.host);
+    console.error("500 Error: ", error);
+    res.status(500).send(error);
+  }
+});
 //  Start the server
 app.listen(port, () => {
   console.log(`🚀Fire the command! Port: ${port}`);
