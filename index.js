@@ -12,21 +12,21 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 // configure CORS: This tells a backend which origins (frontend URLs) are allowed to access its resources
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || origin === process.env.FRONTEND_URL) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allows cookies if needed
-  optionsSuccessStatus: 204, // Some legacy browsers choke on 204
-};
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (!origin || origin === process.env.FRONTEND_URL) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true, // Allows cookies if needed
+//   optionsSuccessStatus: 204, // Some legacy browsers choke on 204
+// };
 // Enable CORS to prevent CORS errors when using client-server API calls
-// app.use(cors());
-app.use(cors(corsOptions)); // enable CORS with options
+app.use(cors());
+// app.use(cors(corsOptions)); // enable CORS with options
 
 // Enable req.body middleware: used to enable JSON parsing on the incoming request.
 // By default, express.json() middleware limits the request payload size to 100kb
