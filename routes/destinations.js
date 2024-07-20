@@ -12,6 +12,7 @@ const {
   getBoundingBox,
   originToArrOfStations,
 } = require("../controllers/knexController");
+const turf = require("@turf/turf"); // must use v6.5, 7 doesn't loop
 
 // GET geometeries to emitate the res of API;
 // Automaated Health check - to check if Vercel server-app is serving the rignt thing and express app it up
@@ -137,8 +138,36 @@ router.post("/commute-all", async (req, res) => {
     const { center, inputValue } = req.body; // { center: [ -73.985664, 40.748424 ], inputValue: 16 }
     const stations = await originToArrOfStations(center, parseInt(inputValue));
     const results = await getAllGeometry(stations);
-    // console.log("works", results);
-    res.status(200).json(results);
+
+    // This line extracts the array of geometries from the results object
+    const geoArr = results.features[0].geometry.geometries;
+    // combine geometries with Turf.js to create a union
+    const polygones = geoArr
+      .map((geometry) => {
+        if (geometry.type === "Polygon") {
+          return turf.polygon(geometry.coordinates);
+        }
+        return undefined;
+      })
+      .filter((item) => item !== undefined);
+
+    // Check if there are at least two features for the union operation
+    if (polygones.length < 2) {
+      // If only one feature, return it directly
+      console.warn(
+        "Less than two features found, returning single feature or empty feature collection."
+      );
+      const featureCollection = turf.featureCollection(polygones);
+      return res.status(200).json(featureCollection);
+    }
+
+    // Combine the features using Turf.js union function
+    let combinedShape = polygones[0];
+    for (let i = 1; i < polygones.length; i++) {
+      combinedShape = turf.union(combinedShape, polygones[i]);
+    }
+
+    res.status(200).json(combinedShape);
   } catch (err) {
     console.error(err);
     res.status(500).send(err);

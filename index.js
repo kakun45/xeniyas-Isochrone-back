@@ -77,3 +77,4 @@ app.listen(port, () => {
 });
 
 //  to run: npx nodemon index.js
+// or: npm run dev

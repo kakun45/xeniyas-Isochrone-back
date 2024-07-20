@@ -102,7 +102,7 @@ function dijkstra(startNodeId, graph, maxCost) {
       return closedList;
     }
     // log which nodeId
-    console.log(`Dijkstra is processing node currentId: ${currentId}`);
+    // console.log(`Dijkstra is processing node currentId: ${currentId}`);
     // if cu_id in closedList
     if (currentId in closedList) {
       throw new Error("The item from a closedList is not allowed");

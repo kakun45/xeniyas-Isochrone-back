@@ -1,6 +1,9 @@
 .env
 .DS_Store
 .env.deploy
+apiResponse.json
+turfPolygones.json
+combinedShapes.json
 
 # dependencies
 /node_modules

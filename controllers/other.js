@@ -72,6 +72,19 @@ const readEdges = () => {
   return JSON.parse(fs.readFileSync("./data/edges_nodup_rounded.json"));
 };
 
+const writeFile = (data, fileName) => {
+  // converts the JSON object to a string with indentation of 2 spaces, making it human-readable
+  const formattedJson = JSON.stringify(data, null, 2);
+  // save res data to a file to see its form
+  fs.writeFile(fileName, formattedJson, "utf8", (err) => {
+    if (err) {
+      console.log("Error writing to file: ", err);
+    } else {
+      console.log(`Saved to file: ${fileName}`);
+    }
+  });
+};
+
 module.exports = {
   getIso,
   getAllGeometry,
@@ -80,4 +93,5 @@ module.exports = {
   readEdges,
   readGeometryCollection,
   readNodes,
+  writeFile,
 };
