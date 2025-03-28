@@ -155,7 +155,7 @@ router.post("/commute-all", async (req, res) => {
     if (polygones.length < 2) {
       // If only one feature, return it directly
       console.warn(
-        "Less than two features found, returning single feature or empty feature collection."
+        "Less than two features found, returning single feature or empty feature collection. The route was not found due to trains-only data. todo: inform a user."
       );
       const featureCollection = turf.featureCollection(polygones);
       return res.status(200).json(featureCollection);

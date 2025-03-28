@@ -129,13 +129,14 @@ exit
 
 ```
 npm run dev # or
-npx nodemon index # to start the Express server and watch it with nodemon
+npx nodemon index.js # to start the Express server and watch it with nodemon or
+npm start
 ```
 
 - how to run the frontend React
 
 ```
-npm start  # to start React
+npm start  # to start React or a backend server
 ```
 
 5. To see the server in action open your web browser and go to:
@@ -186,6 +187,7 @@ My application leverages dynamic data through the integration of a Subway databa
   - Python, Pandas, Google Colaboratory: [link to my duplicates reduction flow](https://colab.research.google.com/drive/1B1fAf8jqy54z5zkoOT7kwNqiI2hcJ7eo?usp=sharing)
   - Public data [link](https://new.mta.info/developers)
 - Deployment: Vercel (frontend, backend), PlanetScale (database)
+
 ---
 
 ## Lessons learned

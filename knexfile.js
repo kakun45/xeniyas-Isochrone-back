@@ -28,5 +28,5 @@ module.exports = {
 
 //  to create tables:
 // npm run migrate
-//  to populate
+//  to populate:
 // npm run seed

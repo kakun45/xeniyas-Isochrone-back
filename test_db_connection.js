@@ -31,7 +31,7 @@ const checkDbConnection = () => {
       } else {
         console.log("Connected to database.");
         resolve({ message: "db test: ok", type: "success" });
-        // connection.end(); // and here
+        // connection.end(); // and alternative close connection goes here
       }
       // Close the connection ONLY once the promise resolves or rejects
       connection.on("error", () => connection.end());
