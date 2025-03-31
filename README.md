@@ -104,7 +104,30 @@ The "migrate" script in a package.json file is a command that uses the Knex.js l
 Seed files are used to populate your database with initial data, such as default settings, test data, or user accounts allowing you to quickly set up test data or default settings. To tell the Knex.js library to run the database defined in my project seed files:
 
 ```
-npm run seed # knex seed:run
+# knex seed:run locally
+npm run seed
+# If you want to run this with your production database, make sure NODE_ENV=production is set
+NODE_ENV=production npx knex seed:run --env production
+```
+
+For online db. Assuming the knexfile.js is properly configured with an environment named `production` and that your `NODE_ENV=production` correctly picks up the database credentials.
+
+```
+# verify the database connection details to ensure Knex is using the production environment
+NODE_ENV=production node -e "console.log(require('./knexfile').production.connection)"
+
+# apply migrations only to the production database
+NODE_ENV=production npx knex migrate:latest --env production
+
+# To check applied migrations
+NODE_ENV=production npx knex migrate:status --env production
+
+# to rollback and re-run migrations
+NODE_ENV=production npx knex migrate:rollback --env production
+NODE_ENV=production npx knex migrate:latest --env production
+
+# Alternative (Explicit Config Path)
+npx knex migrate:rollback --knexfile=knexfile.js --env production
 ```
 
 - I got the Data from Open source [link](https://new.mta.info/developers) and cleaned it up with Python, please email and ask for a cleaned-up file
@@ -117,9 +140,18 @@ npm install
 
 3. Create and select a database in mysql2
 
+Try connecting manually with the MySQL command-line tool [-h -D for online MySQL database]:
+
+```
+mysql -u "$DATABASE_USER" -p"$DATABASE_PASSWORD" -h "$DATABASE_HOST" -D "$DATABASE_NAME"
+```
+
+Create
+
 ```
 CREATE DATABASE <name_of_db>;
 USE <name_of_db>;
+SHOW TABLES;
 exit
 ```
 

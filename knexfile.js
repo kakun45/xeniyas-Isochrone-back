@@ -1,4 +1,7 @@
 require("dotenv").config();
+const fs = require("fs");
+// const data = fs.readFileSync("ca.pem", "utf-8");
+// console.log(data);
 
 module.exports = {
   development: {
@@ -18,7 +21,11 @@ module.exports = {
       user: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      // ssl: { rejectUnauthorized: process.env.ssl },
+      port: process.env.DATABASE_PORT,
+      ssl: {
+        ca: fs.readFileSync("ca.pem"), // Provide the actual file path to certif.
+        // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
+      },
       charset: "utf8",
     },
   },

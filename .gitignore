@@ -8,3 +8,4 @@ combinedShapes.json
 # dependencies
 /node_modules
 /data copy
+ca.pem
