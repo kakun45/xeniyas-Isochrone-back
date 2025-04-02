@@ -9,3 +9,4 @@ combinedShapes.json
 /node_modules
 /data copy
 ca.pem
+ca_clean.pem
