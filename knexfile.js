@@ -24,19 +24,22 @@ module.exports = {
       port: process.env.DATABASE_PORT,
       ssl: process.env.DATABASE_CA
         ? {
-            ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
-              "utf-8"
-            ),
+            //     ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
+            //       "utf-8"
+            //     ),
+            //   }
+            // : { rejectUnauthorized: false },
+            ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
+            // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
           }
         : { rejectUnauthorized: false },
-      // ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
-      // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
     },
     charset: "utf8",
   },
 };
 
-// console.log(process.env); // to see if .env is loaded
+console.log(39, "LOG: knexfile.js:", process.env); // to see if .env is loaded
+console.log(42, "DATABASE_HOST from env:", process.env.DATABASE_HOST);
 // console.log("35) cert:", fs.readFileSync("ca.pem"));
 //  to create tables:
 // npm run migrate
