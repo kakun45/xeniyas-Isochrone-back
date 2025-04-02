@@ -9,8 +9,8 @@
     "migrate:down": "knex migrate:down",
     "migrate:rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
-    "dev": "nodemon index",
-    "start": "node index"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
