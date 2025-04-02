@@ -22,8 +22,10 @@ module.exports = {
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       port: process.env.DATABASE_PORT,
-      ssl: {
-        ca: fs.readFileSync("ca.pem"), // Provide the actual file path to certif.
+      ssl: process.env.DATABASE_CA 
+        ? { ca: Buffer.from(process.env.DATABASE_CA, "base64").toString("utf-8") }
+        : { rejectUnauthorized: false },
+        // ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
         // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
       },
       charset: "utf8",
@@ -32,7 +34,7 @@ module.exports = {
 };
 
 // console.log(process.env); // to see if .env is loaded
-
+// console.log("35) cert:", fs.readFileSync("ca.pem"));
 //  to create tables:
 // npm run migrate
 //  to populate:
