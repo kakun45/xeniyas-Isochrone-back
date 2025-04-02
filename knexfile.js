@@ -22,14 +22,17 @@ module.exports = {
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       port: process.env.DATABASE_PORT,
-      ssl: process.env.DATABASE_CA 
-        ? { ca: Buffer.from(process.env.DATABASE_CA, "base64").toString("utf-8") }
+      ssl: process.env.DATABASE_CA
+        ? {
+            ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
+              "utf-8"
+            ),
+          }
         : { rejectUnauthorized: false },
-        // ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
-        // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
-      },
-      charset: "utf8",
+      // ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
+      // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
     },
+    charset: "utf8",
   },
 };
 
