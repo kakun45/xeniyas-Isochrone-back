@@ -27,7 +27,7 @@ module.exports = {
       port: process.env.DATABASE_PORT,
       ssl: process.env.DATABASE_CA
         ? {
-            ca: Buffer.from(process.env.DATABASE_CA_BASE64, "base64").toString(
+            ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
               "utf-8"
             ), // Decodes the Base64-encoded certificate
           }
