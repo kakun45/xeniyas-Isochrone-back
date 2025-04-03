@@ -21,12 +21,12 @@ module.exports = {
       database: process.env.DATABASE_NAME,
       port: process.env.DATABASE_PORT,
 
-      // works, activate it
+      // works 25/4/2, activate it
       // ssl: {
       //   ca: fs.readFileSync("ca.pem", "utf-8"), // Works locally when provided the actual file path to certif. When connected local-to-online db
       // },
 
-      // testing. works locally
+      // works 25/4/2: local front, online db, another method of reading ca.pem
       ssl: process.env.DATABASE_CA
         ? {
             // Directly passing the decoded base64 as a Buffer
@@ -45,11 +45,10 @@ module.exports = {
       port: process.env.DATABASE_PORT,
       ssl: process.env.DATABASE_CA
         ? {
-            // Directly passing the decoded base64 as a Buffer
+            // works 25/4/2: Directly passing the decoded base64 as a Buffer
             ca: Buffer.from(process.env.DATABASE_CA, "base64"),
           }
-        : { rejectUnauthorized: false },
-      // ssl: { rejectUnauthorized: false }, // Try without the CA
+        : { rejectUnauthorized: false }, // Try without the CA
     },
     charset: "utf8",
   },
