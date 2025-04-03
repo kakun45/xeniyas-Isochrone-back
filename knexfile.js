@@ -35,7 +35,8 @@ module.exports = {
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       port: process.env.DATABASE_PORT,
-      ssl: getSSLConfig(), // Uses Base64 CA or allows SSL without strict CA check
+      ssl: { rejectUnauthorized: false }, // Try without the CA
+      // ssl: getSSLConfig(), // Uses Base64 CA or allows SSL without strict CA check
     },
     charset: "utf8",
   },
