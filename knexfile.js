@@ -2,6 +2,16 @@ require("dotenv").config();
 const fs = require("fs");
 // const data = fs.readFileSync("ca.pem", "utf-8");
 // console.log(data);
+// CLI: ```cat ca.pem | base64```
+
+const getSSLConfig = () => {
+  if (process.env.DATABASE_CA) {
+    return {
+      ca: Buffer.from(process.env.DATABASE_CA, "base64").toString("utf-8"),
+    };
+  }
+  return { rejectUnauthorized: false }; // Allow SSL without CA file
+};
 
 module.exports = {
   development: {
@@ -25,13 +35,7 @@ module.exports = {
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       port: process.env.DATABASE_PORT,
-      ssl: process.env.DATABASE_CA
-        ? {
-            ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
-              "utf-8"
-            ), // Decodes the Base64-encoded certificate
-          }
-        : { rejectUnauthorized: false }, // Quick fix if SSL is optional
+      ssl: getSSLConfig(), // Uses Base64 CA or allows SSL without strict CA check
     },
     charset: "utf8",
   },
