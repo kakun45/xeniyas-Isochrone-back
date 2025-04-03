@@ -12,6 +12,9 @@ module.exports = {
       password: process.env.password,
       database: process.env.database,
       charset: "utf8",
+      ssl: {
+        ca: fs.readFileSync("ca.pem"), // Works locally when provided the actual file path to certif. When connected local-to-online db
+      },
     },
   },
   production: {
@@ -24,24 +27,20 @@ module.exports = {
       port: process.env.DATABASE_PORT,
       ssl: process.env.DATABASE_CA
         ? {
-            //     ca: Buffer.from(process.env.DATABASE_CA, "base64").toString(
-            //       "utf-8"
-            //     ),
-            //   }
-            // : { rejectUnauthorized: false },
-            ca: fs.readFileSync("ca.pem"), // uncoment when local. Provide the actual file path to certif.when connected local-to-online db, todo: fix for Vercel
-            // rejectUnauthorized: false }, // quick fix: Allows self-signed certificates for online db
+            ca: Buffer.from(process.env.DATABASE_CA_BASE64, "base64").toString(
+              "utf-8"
+            ), // Decodes the Base64-encoded certificate
           }
-        : { rejectUnauthorized: false },
+        : { rejectUnauthorized: false }, // Quick fix if SSL is optional
     },
     charset: "utf8",
   },
 };
 
-console.log(39, "LOG: knexfile.js:", process.env); // to see if .env is loaded
-console.log(42, "DATABASE_HOST from env:", process.env.DATABASE_HOST);
+// console.log(39, "LOG: knexfile.js:", process.env); // to see if .env is loaded
 // console.log("35) cert:", fs.readFileSync("ca.pem"));
+
 //  to create tables:
-// npm run migrate
+// ```npm run migrate````
 //  to populate:
-// npm run seed
+// ```npm run seed```
